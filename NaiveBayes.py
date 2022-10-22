@@ -12,7 +12,7 @@ class NaiveBayes:
         for c in class_labels:
             indices = np.where(y_train == c)[0]
             word_occurrences = np.sum(X_train[indices], axis=0) + self.alpha
-            total_occurrences = np.sum(X_train[indices]) + (self.alpha*X_train.shape[1])
+            total_occurrences = np.sum(X_train[indices]) + (self.alpha * X_train.shape[1])
             likelihood.append(word_occurrences / total_occurrences)
         return prior, np.array(likelihood)
 
@@ -25,4 +25,3 @@ class NaiveBayes:
         summation += np.resize(log_prior, summation.shape)
         max_indices = np.argmax(summation, axis=1)
         return max_indices
-
