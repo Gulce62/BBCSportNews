@@ -1,16 +1,45 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import NaiveBayes as nB
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+def read_data(file_name):
+    data = pd.read_csv(file_name)
+    return data
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+def get_data():
+    train_data = read_data("dataset/bbcsports_train.csv")
+    val_data = read_data("dataset/bbcsports_val.csv")
+    X_train = np.array(train_data.iloc[:, :-1])
+    y_train = np.array(train_data.iloc[:, -1:])
+    X_val = np.array(val_data.iloc[:, :-1])
+    y_val = np.array(val_data.iloc[:, -1:])
+    return X_train, y_train, X_val, y_val
+
+
+def get_histogram(class_labels, class_counts):
+    plt.bar(class_labels, class_counts)
+    plt.show()
+
+
+X_train, y_train, X_val, y_val = get_data()
+train_labels, train_counts = np.unique(y_train, return_counts=True)
+val_labels, val_counts = np.unique(y_val, return_counts=True)
+get_histogram(train_labels, train_counts)
+get_histogram(val_labels, val_counts)
+
+mleEstimation = nB.NaiveBayes(alpha=0)
+prior, likelihood = mleEstimation.fit(X_train, y_train)
+predictions = mleEstimation.predict(prior, likelihood, X_val)
+y_val = np.reshape(y_val, (y_val.shape[0]))
+accuracyBool = (predictions == y_val)
+print('MlE Accuracy: ', np.count_nonzero(accuracyBool)/accuracyBool.shape[0])
+
+mapEstimation = nB.NaiveBayes(alpha=1)
+prior, likelihood = mapEstimation.fit(X_train, y_train)
+predictions = mapEstimation.predict(prior, likelihood, X_val)
+y_val = np.reshape(y_val, (y_val.shape[0]))
+accuracyBool = (predictions == y_val)
+print('MAP Accuracy: ', np.count_nonzero(accuracyBool)/accuracyBool.shape[0])
