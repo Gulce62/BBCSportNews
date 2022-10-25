@@ -21,6 +21,7 @@ class NaiveBayes:
         log_likelihood = np.log(likelihood)
         log_prior = np.log(prior)
         mult_freq = np.multiply(log_likelihood, frequencies)
+        mult_freq = np.nan_to_num(mult_freq)
         summation = np.sum(mult_freq, axis=2)
         summation += np.resize(log_prior, summation.shape)
         max_indices = np.argmax(summation, axis=1)
