@@ -2,12 +2,16 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sn
+import sys
 import NaiveBayes as nB
 
 
 def read_data(file_name):
-    data = pd.read_csv(file_name)
-    return data
+    try:
+        data = pd.read_csv(file_name)
+        return data
+    except Exception:
+        sys.exit(1)
 
 
 def get_data(file_location):
@@ -32,18 +36,16 @@ def get_confusion_matrix(y_true, y_pred, class_labels):
 
 def estimate(eName, estimator, prior, likelihood, X, y):
     y_pred = estimator.predict(prior, likelihood, X)
-    y_true= np.reshape(y, (y_val.shape[0]))
+    y_true= np.reshape(y, (y.shape[0]))
     accuracyBool = (y_pred == y_true)
     print(eName, 'Accuracy: ', np.count_nonzero(accuracyBool) / accuracyBool.shape[0])
     return y_pred, y_true
 
-
 train_file_location = input('Enter the file location of the train dataset: ')
-val_file_location = input('Enter the file location of the validation dataset: ')
-test_file_location = input('Enter the file location of the test dataset: ')
-
 X_train, y_train = get_data(train_file_location)
+val_file_location = input('Enter the file location of the validation dataset: ')
 X_val, y_val = get_data(val_file_location)
+test_file_location = input('Enter the file location of the test dataset: ')
 X_test, y_test = get_data(test_file_location)
 
 train_labels, train_counts = np.unique(y_train, return_counts=True)
@@ -51,7 +53,7 @@ val_labels, val_counts = np.unique(y_val, return_counts=True)
 test_labels, test_counts = np.unique(y_test, return_counts=True)
 
 get_histogram(train_labels, train_counts)
-get_histogram(val_labels, val_labels)
+get_histogram(val_labels, val_counts)
 get_histogram(test_labels, test_counts)
 
 mleEstimation = nB.NaiveBayes(alpha=0)
