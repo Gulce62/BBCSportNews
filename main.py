@@ -38,6 +38,7 @@ def estimate(eName, estimator, prior, likelihood, X, y):
     y_pred = estimator.predict(prior, likelihood, X)
     y_true= np.reshape(y, (y.shape[0]))
     accuracyBool = (y_pred == y_true)
+    print('Number of Wrong Prediction for', eName, ': ',  accuracyBool.shape[0]-np.count_nonzero(accuracyBool))
     print(eName, 'Accuracy: ', np.count_nonzero(accuracyBool) / accuracyBool.shape[0])
     return y_pred, y_true
 
