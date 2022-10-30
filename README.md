@@ -2,7 +2,7 @@
 
 Required programming language: Python 
 
-Required libraries: numpy, pandas, matplotlib and seaborn
+Required libraries: numpy, pandas, matplotlib and seaborn (sys library is used to exit if the file path is incorrect)
 
 The program consists of the main file (q2main.py) and the file that includes Naive Bayes class (NaiveBayes.py).
 In the q2main.py file the csv data is read and converted into input and output arrays. The data distribution graphs are plotted.

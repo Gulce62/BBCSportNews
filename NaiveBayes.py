@@ -5,8 +5,8 @@ class NaiveBayes:
     def __init__(self, alpha):
         self.alpha = alpha
 
-    def fit(self, X_train, y_train):
-        class_labels, class_counts = np.unique(y_train, return_counts=True)
+    def fit(self, X_train, y_train, class_labels, class_counts):
+        # Fit the training data by calculating priors and likelihoods for each class
         prior = class_counts / y_train.shape[0]
         likelihood = []
         for c in class_labels:
@@ -17,6 +17,7 @@ class NaiveBayes:
         return prior, np.array(likelihood)
 
     def predict(self, prior, likelihood, X):
+        # Predict the validation and data according to the priors and likelihoods by maximizing the probabilities
         frequencies = np.reshape(X, (X.shape[0], 1, X.shape[1]))
         log_likelihood = np.log(likelihood)
         log_prior = np.log(prior)
