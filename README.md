@@ -1,6 +1,6 @@
 # CS 464 Homework 1 - BBCSportNews Classification
 
-Required programming language: Python 
+Required programming language: Python (Python3 needs to be installed in the computer)
 
 Required libraries: numpy, pandas, matplotlib and seaborn (sys library is used to exit if the file path is incorrect)
 
